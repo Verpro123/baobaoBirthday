@@ -1,6 +1,18 @@
-        const canvas = document.getElementById('fireworksCanvas');
+const canvas = document.getElementById('fireworksCanvas');
         const ctx = canvas.getContext('2d');
         let fireworks = [];
+        
+        // 触发烟花效果的公共函数
+        window.triggerFireworks = function(count = 5) {
+            for (let i = 0; i < count; i++) {
+                // 在屏幕上随机位置生成烟花
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height * 0.7; // 主要在屏幕上半部分
+                setTimeout(() => {
+                    fireworks.push(new Firework(x, y, 40));
+                }, i * 200); // 间隔200ms发射一个烟花
+            }
+        };
 
         // 设置画布尺寸
         function resizeCanvas() {
@@ -75,8 +87,7 @@
         // 动画循环
         function animate() {
           ctx.clearRect(0, 0, canvas.width, canvas.height); // 清除画布内容
-            ctx.fillStyle = "#fff"; // 轻微残影效果
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // 不使用白色填充，避免影响页面背景
 
             fireworks.forEach((firework, index) => {
                 firework.update();

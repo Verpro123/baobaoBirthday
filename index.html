@@ -14,6 +14,9 @@
   <button id="playPauseButton" class="play-pause"></button>
   <audio id="bgMusic" src="music/bgMusic.mp3" preload="auto"></audio>
   <div class="startSign">
+    <h2 style="color: #ff6b6b; margin-bottom: 20px;">为了确认您的身份，请输入你先生的名字哦</h2>
+    <input type="text" id="nameInput" placeholder="请输入名字" style="padding: 10px; border: 2px solid #ff6b6b; border-radius: 5px; margin-bottom: 10px; font-size: 16px;" />
+    <p id="errorMessage" style="color: #ff4444; display: none; margin-bottom: 10px;">名字不正确，请重试</p>
     <p class="two">温馨提醒：佩戴耳机并播放音乐可获得最佳体验哦😊</p>
     <!-- 开始按钮 -->
     <p id="startButton" class="two button">准备好了，我们开始吧！</p>

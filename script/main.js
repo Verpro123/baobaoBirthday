@@ -27,10 +27,33 @@ const fetchData = () => {
         // Run amimation if so
         if (dataArr.length === dataArr.indexOf(customData) + 1) {
           document.querySelector("#startButton").addEventListener("click", () => {
-            document.querySelector(".startSign").style.display = "none"
-            animationTimeline()
-          }
-          )
+            const nameInput = document.querySelector("#nameInput");
+            const errorMessage = document.querySelector("#errorMessage");
+            
+            // 验证输入的名字是否为"胡东明"
+            if (nameInput.value.trim() === "胡东明") {
+              // 名字正确，隐藏错误信息并继续
+              errorMessage.style.display = "none";
+              
+              // 播放音乐
+              try {
+                if (audio) {
+                  audio.play();
+                  isPlaying = true;
+                  playPauseButton.classList.add('playing');
+                }
+              } catch (e) {
+                console.log('自动播放被浏览器阻止，请点击播放按钮开始播放音乐', e);
+              }
+              
+              document.querySelector(".startSign").style.display = "none";
+              animationTimeline();
+            } else {
+              // 名字不正确，显示错误信息
+              errorMessage.style.display = "block";
+              nameInput.focus();
+            }
+          })
           // animationTimeline()
         }
       })
@@ -216,16 +239,28 @@ const animationTimeline = () => {
     )
     .staggerFromTo(
       ".baloons img",
-      2.5,
+      1.25,
       {
-        opacity: 0.9,
-        y: 1400
+        opacity: 0,
+        y: 1400,
+        display: "inline-block" // 确保动画开始时显示
       },
       {
         opacity: 1,
-        y: -1000
+        y: -1000,
+        display: "inline-block"
       },
-      0.2
+      0.1
+    )
+    .staggerTo(
+      ".baloons img",
+      0.25,
+      {
+        opacity: 0,
+        display: "none" // 动画结束后隐藏
+      },
+      0.05,
+      "+=1.25" // 等待气球完全上升后再隐藏
     )
     .from(
       ".lydia-dp",
@@ -269,7 +304,13 @@ const animationTimeline = () => {
         scale: 1,
         rotationY: 0,
         color: "#ff69b4",
-        ease: Expo.easeOut
+        ease: Expo.easeOut,
+        onStart: function() {
+          // 在文本动画开始时触发烟花效果
+          if (window.triggerFireworks) {
+            window.triggerFireworks(8); // 触发8个烟花，制造更热闹的效果
+          }
+        }
       },
       0.1,
       "party"
@@ -329,18 +370,7 @@ const playPauseButton = document.getElementById('playPauseButton')
 const audio = document.getElementById('bgMusic')
 let isPlaying = false
   
-// 播放/暂停音乐的功能
-document.getElementById('startButton').addEventListener('click', () => {
-  try {
-    if (audio) {
-      audio.play()
-      isPlaying = true
-      playPauseButton.classList.add('playing')
-    }
-  } catch (e) {
-    console.log('自动播放被浏览器阻止，请点击播放按钮开始播放音乐', e)
-  }
-})
+// 播放/暂停音乐的功能已整合到startButton的验证逻辑中
   
 playPauseButton.addEventListener('click', () => {
   if (audio) {

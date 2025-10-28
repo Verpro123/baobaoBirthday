@@ -636,3 +636,65 @@ canvas {
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(3, 193, 96, 0.3);
 }
+
+.story-box {
+  max-width: 800px;
+  margin: 20px auto 0;
+  padding: 16px 18px;
+  background: rgba(255, 255, 255, 0.88);
+  border: 2px solid #ff9a9e;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  text-align: left;
+  display: none;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.story-box.story-center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 800px;
+  max-height: 70vh;
+  z-index: 1000;
+}
+.story-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border: none;
+  border-radius: 16px;
+  background: #ff6b6b;
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.story-close:hover {
+  background: #ff4b4b;
+}
+
+.story {
+  /* 保持原有样式 */
+  /* 新增：初始隐藏，出现后可滚动 */
+  display: none;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+.story-paragraph {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #444;
+  margin: 0.4rem 0;
+}
+@media screen and (max-width: 600px) {
+  .story-paragraph {
+    font-size: 0.98rem;
+    line-height: 1.8;
+  }
+}

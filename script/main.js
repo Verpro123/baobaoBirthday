@@ -342,15 +342,16 @@ const animationTimeline = () => {
       y: 30,
       zIndex: "-1"
     })
-    .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
+    .staggerFrom(".nine p:not(.story-paragraph)", 1, ideaTextTrans, 1.2)
     .to(
-      ".last-smile",
-      0.5,
-      {
-        rotation: 90
-      },
-      "+=1"
-    )
+        ".last-smile",
+        0.5,
+        {
+          rotation: 90
+        },
+        "+=1"
+      )
+
 
   // tl.seek("currentStep");
   // tl.timeScale(2);
@@ -358,9 +359,40 @@ const animationTimeline = () => {
   // Restart Animation on click
   const replyBtn = document.getElementById("replay")
   replyBtn.addEventListener("click", () => {
-    tl.restart()
-
+    // 展示并居中故事框
+    TweenMax.set(".story-box", { display: "block" })
+    const box = document.querySelector('.story-box')
+    if (box) {
+      box.classList.add('story-center')
+    }
+    // 清理旧动画，确保可重复播放
+    TweenMax.killTweensOf('.story-paragraph')
+    TweenMax.set('.story-paragraph', { clearProps: 'all' })
+    // 逐条入场动画（显式 fromTo，避免受历史内联样式影响）
+    TweenMax.staggerFromTo(
+      ".story-paragraph",
+      0.8,
+      { opacity: 0, y: 20, rotationX: 5, skewX: "15deg" },
+      { opacity: 1, y: 0, rotationX: 0, skewX: 0 },
+      0.25
+    )
   })
+
+  // 关闭按钮事件
+  const closeBtn = document.querySelector('.story-close')
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      // 停止并清理动画
+      TweenMax.killTweensOf('.story-paragraph')
+      TweenMax.set('.story-paragraph', { clearProps: 'all' })
+      // 隐藏故事框并移除居中样式
+      TweenMax.set('.story-box', { display: 'none' })
+      const box2 = document.querySelector('.story-box')
+      if (box2) {
+        box2.classList.remove('story-center')
+      }
+    })
+  }
 }
 
 // Run fetch and animation in sequence

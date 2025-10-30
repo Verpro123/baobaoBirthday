@@ -8,6 +8,8 @@
   <title>别找了，没有标题</title>
   <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
   <link rel="stylesheet" href="style/style.css">
+  <!-- 新增：Leaflet 地图样式 -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
 </head>
 
 <body>
@@ -136,29 +138,48 @@
     <div class="nine">
       <p data-node-name="outroText">Okay, now come back and tell me if you liked it.</p>
       <p id="replay" data-node-name="replayText">我想听故事</p>
+      <!-- 新增：查看地图按钮 -->
+      <!-- 观看地图按钮：已取消 -->
+      <!-- <p id="showMap" class="map-button">看地图：江苏 → 重庆</p> -->
       <p class="last-smile" data-node-name="outroSmiley">:)</p>
       <div class="story-box">
         <button class="story-close" aria-label="关闭">×</button>
-+        <p class="story-paragraph">一天，小兔子望着远处的晚霞，轻声问小狐狸：</p>
-+        <p class="story-paragraph">“你能一直在我身边吗？”</p>
-+        <p class="story-paragraph">小狐狸立刻凑近，耳朵都急得竖了起来：“这还用问吗？我当然想和你一直、一直在一起啊，从春天的花开，到冬天的雪落，一分一秒都不分开。”</p>
-+        <p class="story-paragraph">小兔子低下头，爪子轻轻拨弄着脚边的蒲公英，声音轻得几乎被风吹散：</p>
-+        <p class="story-paragraph">“可每次我最需要你的时候……你都不在。这一千四百公里，真的好远好远。远到连你的声音，都像隔着一片海。”</p>
-+        <p class="story-paragraph">小狐狸沉默了一会儿，尾巴轻轻绕住小兔子的爪子，像在拥抱那缕被风吹散的叹息。</p>
-+        <p class="story-paragraph">“我知道，一千四百公里，听起来像要翻过九十九座山、蹚过八十八条河。”他声音温柔，眼里却闪着坚定的光，“可你知道吗？就算我不能立刻出现在你身边，我的心早就偷偷搭了座桥——从我这儿，一直通到你窗前。”</p>
-+        <p class="story-paragraph">小兔子抬起头，眼睛湿漉漉的：“真的吗？”</p>
-+        <p class="story-paragraph">“当然是真的。”小狐狸笑了，从背包里掏出一个小瓶子，里面装着几颗星星似的光点，“你看，这是我昨晚收集的月光，还有今天清晨的第一缕阳光。我每天都会存一点‘我在’的证据，等见面那天，全都送给你。”</p>
-+        <p class="story-paragraph">小兔子忍不住笑了，眼角还挂着泪珠：“那……你会不会有一天，觉得太累了，就不想再搭这座桥了？”</p>
-+        <p class="story-paragraph">小狐狸轻轻蹭了蹭她的额头，像小时候那样：“傻兔子，爱不是靠距离衡量的。你在的地方，就是我想抵达的远方。哪怕隔着一千四百公里，我也会用一千四百种方式告诉你——我一直在。”</p>
-+        <p class="story-paragraph">风轻轻吹过，蒲公英的种子乘着光飞向远方。小兔子忽然觉得，那座桥，其实早就建好了——用思念作梁，用信任为柱，用每一次晚安和早安，一砖一瓦，稳稳地连起了两个心。</p>
-+        <p class="story-paragraph">而他们都知道，总有一天，桥的尽头，会变成拥抱的起点。</p>
+        <p class="story-paragraph">一天，小兔子望着远处的晚霞，轻声问小狐狸：</p>
+        <p class="story-paragraph">“你能一直在我身边吗？”</p>
+        <p class="story-paragraph">小狐狸立刻凑近，耳朵都急得竖了起来：“这还用问吗？我当然想和你一直、一直在一起啊，从春天的开花，到冬天的雪落，一分一秒都不分开。”</p>
+        <p class="story-paragraph">小兔子低下头，爪子轻轻拨弄着脚边的蒲公英，声音轻得几乎被风吹散：</p>
+        <p class="story-paragraph">“可每次我最需要你的时候……你都不在。这一千四百公里，真的好远好远。远到连你的声音，都像隔着一片海。”</p>
+        <p class="story-paragraph">小狐狸沉默了一会儿，尾巴轻轻绕住小兔子的爪子，像在拥抱那缕被风吹散的叹息。</p>
+        <p class="story-paragraph">“我知道，一千四百公里，听起来像要翻过九十九座山、蹚过八十八条河。”他声音温柔，眼里却闪着坚定的光，“可你知道吗？就算我不能立刻出现在你身边，的心早就偷偷搭了座桥——从我这儿，一直通到你窗前。”</p>
+        <p class="story-paragraph">小兔子抬起头，眼睛湿漉漉的：“真的吗？”</p>
+        <p class="story-paragraph">“当然是真的。”小狐狸笑了，从背包里掏出一个小瓶子，里面装着几颗星星似的光点，“你看，这是我昨晚收集的月光，还有今天清晨的第一缕阳光。我每天都会存一点‘我在’的证据，等见面那天，全都送给你。”</p>
+        <p class="story-paragraph">小兔子忍不住笑了，眼角还挂着泪珠：“那……你会不会有一天，觉得太累了，就不想再搭这座桥了？”</p>
+        <p class="story-paragraph">小狐狸轻轻蹭了蹭她的额头，像小时候那样：“傻兔子，爱不是靠距离衡量的。你在的地方，就是我想抵达的远方。哪怕隔着一千四百公里，我也会用一千四百种方式告诉你——我一直在。”</p>
+        <p class="story-paragraph">风轻轻吹过，蒲公英的种子乘着光飞向远方。小兔子忽然觉得，那座桥，其实早就建好了——用思念作梁，用信任为柱，用每一次晚安和早安，一砖一瓦，稳稳地连起了两个心。</p>
+        <p class="story-paragraph">而他们都知道，总有一天，桥的尽头，会变成拥抱的起点。</p>
       </div>
     </div>
     <canvas id="fireworksCanvas"></canvas>
   </div>
+
+  <!-- 新增：地图到达覆盖层 -->
+  <div id="mapArrival" class="map-arrival" style="display:none;">
+    <div class="map-panel">
+      <button class="map-close" aria-label="我到啦！">我到啦！</button>
+      <h3 class="map-title"></h3>
+      <div id="map" class="map-container" aria-label="到达地图"></div>
+      <div id="distanceInfo" class="map-distance" aria-live="polite"></div>
+      <!-- 删除：开始到达动画按钮 -->
+      <!-- <button id="mapStart" class="map-start">开始到达动画</button> -->
+    </div>
+  </div>
+
+  <!-- GSAP & 项目脚本 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+  <script type="application/javascript" src="script/main.js"></script>
+  <script type="application/javascript" src="script/firework.js"></script>
+  <!-- 新增：Leaflet 地图库 -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 </body>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
-<script type="application/javascript" src="script/main.js"></script>
-<script type="application/javascript" src="script/firework.js"></script>
 </html>

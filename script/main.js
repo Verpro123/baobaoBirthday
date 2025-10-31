@@ -412,6 +412,29 @@ fetchData()
 const playPauseButton = document.getElementById('playPauseButton')
 const audio = document.getElementById('bgMusic')
 let isPlaying = false
+
+// 当音乐播放自然结束时，3秒后自动重新播放
+if (audio) {
+  audio.addEventListener('ended', () => {
+    // 更新按钮状态为未播放
+    isPlaying = false
+    playPauseButton.classList.remove('playing')
+    // 3秒后重播（如果期间用户没有手动播放）
+    setTimeout(() => {
+      if (!isPlaying) {
+        audio.currentTime = 0
+        audio.play()
+          .then(() => {
+            isPlaying = true
+            playPauseButton.classList.add('playing')
+          })
+          .catch(e => {
+            console.log('自动重播被阻止或失败：', e)
+          })
+      }
+    }, 3000)
+  })
+}
   
 // 播放/暂停音乐的功能已整合到startButton的验证逻辑中
   
@@ -579,7 +602,7 @@ function initMapIfNeeded() {
 function startMapAnimation(onArrive) {
   if (!window.L || !marker || !routeLine) return;
   const [start, end] = routeLine.getLatLngs();
-  const steps = 240; // 动画步数
+  const steps = 500; // 动画步数（10秒 = 500 * 20ms）
   let t = 0;
 
   // 计算总距离（公里）

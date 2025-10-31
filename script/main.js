@@ -31,7 +31,7 @@ const fetchData = () => {
             const errorMessage = document.querySelector("#errorMessage");
             
             // 验证输入的名字是否为"胡东明"
-            if (nameInput.value.trim() === "111") {
+            if (nameInput.value.trim() === "胡东明") {
               // 名字正确，隐藏错误信息并继续
               errorMessage.style.display = "none";
               

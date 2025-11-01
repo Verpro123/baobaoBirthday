@@ -1,15 +1,18 @@
 // Import the data to customize and insert them into page
 const fetchData = () => {
-  fetch("customize.json")
+  fetch("customize.json?ts=" + Date.now(), { cache: 'no-store' })
     .then(data => data.json())
     .then(data => {
       dataArr = Object.keys(data)
       dataArr.map(customData => {
         if (data[customData] !== "") {
           if (customData === "imagePath") {
-            document
-              .querySelector(`[data-node-name*="${customData}"]`)
-              .setAttribute("src", data[customData])
+            const el = document.querySelector(`[data-node-name*="${customData}"]`)
+            if (el) {
+              const imgSrc = data[customData]
+              const bustSrc = imgSrc + (imgSrc.includes('?') ? '&' : '?') + 'ts=' + Date.now()
+              el.setAttribute("src", bustSrc)
+            }
           } else if (customData === "fonts") {
             // 使用本地字体而不是外部链接
             document.body.style.fontFamily = 'Arial, sans-serif, "LXGWWenKai"';
@@ -353,7 +356,13 @@ const animationTimeline = () => {
       y: 30,
       zIndex: "-1"
     })
-    .staggerFrom(".nine p:not(.story-paragraph)", 1, ideaTextTrans, 1.2)
+    // 原先这里是一次性逐个展示 nine 区块中的所有 <p>
+    // .staggerFrom(".nine p:not(.story-paragraph)", 1, ideaTextTrans, 1.2)
+    // 改为：先展示 outroText，然后让 #replay 和 .map-button 同时出现，最后展示 last-smile
+    .from(".nine [data-node-name='outroText']", 1, ideaTextTrans)
+    .from(".nine #replay", 1, ideaTextTrans)
+    .from(".nine .map-button", 1, ideaTextTrans, "-=1")
+    .from(".nine .last-smile", 1, ideaTextTrans, "+=0.6")
     .to(
         ".last-smile",
         0.5,

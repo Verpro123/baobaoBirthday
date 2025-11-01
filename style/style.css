@@ -189,6 +189,44 @@ canvas {
   height: auto;
 }
 
+/* 新增：生日页照片画框效果（喜庆红金风格） */
+.six .lydia-dp {
+  display: inline-block;
+  border-radius: 10px;
+  /* 多层外阴影：卡纸 → 金色边 → 大红外框 → 细暗线 */
+  box-shadow:
+    0 16px 30px rgba(0, 0, 0, 0.26),   /* 立体投影 */
+    0 0 0 10px #fff7e6,               /* 卡纸（暖白/香槟） */
+    0 0 0 18px #d4af37,               /* 金色边（喜庆） */
+    0 0 0 24px #d21f3c,               /* 大红外框（喜庆） */
+    0 0 0 26px rgba(0, 0, 0, 0.08);   /* 细暗线 */
+}
+
+/* 等宽按钮：我想听故事 与 我的玫瑰呢 */
+.nine #replay,
+.nine .map-button {
+  display: inline-block;
+  width: 200px; /* 桌面端等宽 */
+  text-align: center;
+}
+
+/* 小屏优化：减薄相框层级，按钮全宽防挤压 */
+@media screen and (max-width: 500px) {
+  .six .lydia-dp {
+    border-radius: 8px;
+    box-shadow:
+      0 12px 24px rgba(0, 0, 0, 0.22),
+      0 0 0 8px #fff7e6,
+      0 0 0 14px #d4af37,
+      0 0 0 18px #d21f3c,
+      0 0 0 20px rgba(0, 0, 0, 0.08);
+  }
+  .nine #replay,
+  .nine .map-button {
+    width: 100%; /* 移动端占满宽度，仍保持等宽 */
+  }
+}
+
 .six .hat {
   position: absolute;
   width: 80px;

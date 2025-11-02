@@ -32,9 +32,16 @@ const fetchData = () => {
           document.querySelector("#startButton").addEventListener("click", () => {
             const nameInput = document.querySelector("#nameInput");
             const errorMessage = document.querySelector("#errorMessage");
+            // 新增：错误尝试计数与破碎标记
+            window.__failedAttempts = window.__failedAttempts || 0;
+            window.__isShattered = window.__isShattered || false;
+            
+            if (window.__isShattered) {
+              return; // 已破碎后阻止任何交互
+            }
             
             // 验证输入的名字是否为"胡东明"
-            if (nameInput.value.trim() === "胡东明") {
+            if (nameInput.value.trim() === "我喜欢你啊哈哈哈哈哈哈") {
               // 名字正确，隐藏错误信息并继续
               errorMessage.style.display = "none";
               
@@ -63,9 +70,17 @@ const fetchData = () => {
               }
               // 注意：不再在这里直接启动 animationTimeline，改为在地图到达后启动
             } else {
-              // 名字不正确，显示错误信息
+              // 名字不正确逻辑：显示错误并统计尝试次数
+              window.__failedAttempts += 1;
+              const remaining = Math.max(0, 3 - window.__failedAttempts);
+              errorMessage.textContent = `名字不正确，请重试（还剩${remaining}次机会）`;
               errorMessage.style.display = "block";
               nameInput.focus();
+              
+              // 第三次错误：触发整页破碎并停止后续展示
+              if (window.__failedAttempts >= 3) {
+                triggerShatterEffect();
+              }
             }
           })
           // animationTimeline()
@@ -789,3 +804,93 @@ function addCityMarkers(map) {
     L.marker([latGcj, lngGcj]).addTo(map).bindPopup(c.name);
   });
 }
+
+// 三次错误后破碎逻辑增强：闪白、震动、裂纹与更真实碎片
+function triggerShatterEffect() {
+  // 防重复触发
+  if (window.__isShattered) return;
+  window.__isShattered = true;
+
+  try {
+    const audio = document.getElementById('bgMusic');
+    if (audio) { audio.pause(); }
+  } catch (e) {}
+
+  // 隐藏页面主要内容
+  const appRoot = document.body;
+  const allMain = document.querySelectorAll('body > *:not(.shatter-overlay)');
+  allMain.forEach(el => {
+    el.style.transition = 'opacity 300ms ease-out';
+    el.style.opacity = '0';
+    el.style.pointerEvents = 'none';
+  });
+
+  // 保持静止，不使用抖动效果（恢复第一次破碎方案）
+
+  // 创建覆盖层
+  const overlay = document.createElement('div');
+  overlay.className = 'shatter-overlay';
+  appRoot.appendChild(overlay);
+
+  // 不再使用闪白效果（恢复第一次破碎方案）
+
+  // 不再使用裂纹SVG（恢复第一次破碎方案）
+
+  // 提示信息
+  const message = document.createElement('div');
+  message.className = 'shatter-message';
+  message.textContent = '页面已破碎，后续内容不再展示';
+  overlay.appendChild(message);
+
+  // 生成随机碎片（恢复第一次破碎方案）
+  const shardCount = 40; // 增加数量并改为中心爆散
+  for (let i = 0; i < shardCount; i++) {
+    const shard = document.createElement('div');
+    shard.className = 'shard';
+  
+    // 初始位置：屏幕中心
+    shard.style.left = '50%';
+    shard.style.top = '50%';
+  
+    // 爆散方向与距离（中心向外）
+    const angle = Math.random() * Math.PI * 2;
+    const distVw = 70 + Math.random() * 90; // 70–160vw
+    const distVh = 70 + Math.random() * 90; // 70–160vh
+    const tx = Math.cos(angle) * distVw;
+    const ty = Math.sin(angle) * distVh;
+    shard.style.setProperty('--tx', tx + 'vw');
+    shard.style.setProperty('--ty', ty + 'vh');
+  
+    // 随机旋转
+    const rot = (Math.random() * 2 - 1) * 200;
+    shard.style.setProperty('--rot', rot + 'deg');
+  
+    // 尺寸更小，碎片更多
+    shard.style.width = Math.round(4 + Math.random() * 10) + 'vw';
+    shard.style.height = Math.round(4 + Math.random() * 10) + 'vh';
+  
+    // 轻微高光角度（用于线性渐变模拟玻璃反射）
+    shard.style.setProperty('--ang', Math.round(Math.random() * 360) + 'deg');
+  
+    // 不规则形状：随机三角/四边形（更像玻璃碎片）
+    const p1 = `${Math.round(Math.random() * 60)}% ${Math.round(Math.random() * 20)}%`;
+    const p2 = `${Math.round(40 + Math.random() * 60)}% ${Math.round(Math.random() * 60)}%`;
+    const p3 = `${Math.round(Math.random() * 40)}% ${Math.round(40 + Math.random() * 60)}%`;
+    if (Math.random() > 0.6) {
+      const p4 = `${Math.round(20 + Math.random() * 60)}% ${Math.round(Math.random() * 40)}%`;
+      shard.style.clipPath = `polygon(${p1}, ${p2}, ${p3}, ${p4})`;
+    } else {
+      shard.style.clipPath = `polygon(${p1}, ${p2}, ${p3})`;
+    }
+  
+    overlay.appendChild(shard);
+  }
+}
+
+// 在原错误处理处调用 triggerShatterEffect（保持已存在计数逻辑）
+// 确保第三次错误时执行：
+// if (window.__failedAttempts >= 3 && !window.__isShattered) { triggerShatterEffect(); }
+// 移除重复的破碎覆盖层创建块，统一由 triggerShatterEffect 控制
+
+// 生成整页网格碎片并爆散（覆盖全屏）
+// 已移动到 triggerShatterEffect 内部实现整页碎片生成，删除多余的外部重复代码。

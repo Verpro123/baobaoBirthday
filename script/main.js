@@ -839,7 +839,7 @@ function triggerShatterEffect() {
   // 提示信息
   const message = document.createElement('div');
   message.className = 'shatter-message';
-  message.textContent = '页面已破碎，后续内容不再展示';
+  message.textContent = '希望你开开心心的就好啦';
   overlay.appendChild(message);
 
   // 生成随机碎片（恢复第一次破碎方案）

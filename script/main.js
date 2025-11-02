@@ -41,7 +41,7 @@ const fetchData = () => {
             }
             
             // 验证输入的名字是否为"胡东明"
-            if (nameInput.value.trim() === "我喜欢你啊哈哈哈哈哈哈") {
+            if (nameInput.value.trim() === "范天丹") {
               // 名字正确，隐藏错误信息并继续
               errorMessage.style.display = "none";
               
